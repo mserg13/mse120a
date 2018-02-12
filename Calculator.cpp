@@ -1,5 +1,5 @@
 // Calculator.cpp : Defines the entry point for the console application.
-//
+// Ð¸Ð·Ð¼ÐµÐ½Ð¸Ð» Ð½Ð° gitHub
 
 #include "stdafx.h"
 #include <stack>
@@ -11,8 +11,8 @@ void calculator()
 	stack<double> calc;
 	double a, b;
 	char str[1];
-	cout << "Ïðîñòåéøèé êàëüêóëÿòîð\n";
-	cout << "Äëÿ âûõîäà ââåäèòå q\n";
+	cout << "ÃÃ°Ã®Ã±Ã²Ã¥Ã©Ã¸Ã¨Ã© ÃªÃ Ã«Ã¼ÃªÃ³Ã«Ã¿Ã²Ã®Ã°\n";
+	cout << "Ã„Ã«Ã¿ Ã¢Ã»ÃµÃ®Ã¤Ã  Ã¢Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ q\n";
 	do
 	{
 		cout << ":";
@@ -30,20 +30,21 @@ void calculator()
 			{ b = calc.top(); calc.pop(); }
 			if (!a)
 			{
-				cout << "Äåëåíèå íà 0\n";
+				cout << "Ã„Ã¥Ã«Ã¥Ã­Ã¨Ã¥ Ã­Ã  0\n";
 				break;
 			}
 			cout << b / a << endl;
 			calc.push(b / a);
 			break;
-		case '.': //ñîäåðæèìîå âåðøèíû ñòåêà
+		case '.': //Ã±Ã®Ã¤Ã¥Ã°Ã¦Ã¨Ã¬Ã®Ã¥ Ã¢Ã¥Ã°Ã¸Ã¨Ã­Ã» Ã±Ã²Ã¥ÃªÃ 
 			if (!calc.empty()) {
 				a = calc.top();
 				//calc.push(a);
-				cout << "Òåêóùåå çíà÷åíèå â âåðøèíå ñòåêà:";
+				cout << "Ã’Ã¥ÃªÃ³Ã¹Ã¥Ã¥ Ã§Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã¢ Ã¢Ã¥Ã°Ã¸Ã¨Ã­Ã¥ Ã±Ã²Ã¥ÃªÃ :";
 				cout << a << endl;
 			}
-			break;		default:
+			break;
+		default:
 			calc.push(atof(str));
 		}
 	} while (*str != 'q');
