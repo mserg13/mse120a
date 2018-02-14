@@ -28,7 +28,7 @@ public:
 	int IndexOf(const int val);   //  возвращает индекс 
 	int LastIndexOf(const int val); //  возвращает последний  индекс 
 	int resize(int newsize);   // 
-	
+
 
 public:
 	int &operator[](int ind);
@@ -51,7 +51,7 @@ ClArray::~ClArray()
 }
 
 ClArray::ClArray() :
-	arrSize(10)
+arrSize(10)
 {
 	Data = new int[arrSize];
 	if (Data == 0)
@@ -63,7 +63,7 @@ ClArray::ClArray() :
 }
 
 ClArray::ClArray(int arr_size) :
-	arrSize(arr_size)
+arrSize(arr_size)
 {
 	Data = new int[arrSize];
 	if (Data == 0)
@@ -93,7 +93,7 @@ ClArray::ClArray(int arr_size) :
 
 ClArray::ClArray(const ClArray& t)  // конструктор копирования
 {
-	
+
 
 	arrSize = t.arrSize;
 	Data = new int[t.arrSize];
@@ -105,8 +105,8 @@ ClArray::ClArray(const ClArray& t)  // конструктор копирования
 
 
 ClArray::ClArray(ClArray&& t)  // конструктор перемещения
-	: Data(nullptr),
-	arrSize(0)
+: Data(nullptr),
+arrSize(0)
 {
 
 	arrSize = t.arrSize;
@@ -227,30 +227,33 @@ int ClArray::LastIndexOf(const int val)
 
 int ClArray::resize(int newSize)  // изменение размера массива
 {
-	
+
 	int  *temp = new int[newSize];
 	if (arrSize >= newSize)
 	{
 		for (int i = 0; i < newSize; i++)
 			temp[i] = Data[i];
-	}	
+	}
 	else
 	{
-		for (int i = 0; i < newSize; i++)
+		for (int i = 0; i < arrSize; i++)
 			temp[i] = Data[i];
-		for (int i = newSize; i < arrSize; i++)
+		for (int i = arrSize; i < newSize; i++)
 			temp[i] = 0;
 	}
 	delete[] Data;
 	Data = 0;
 
-	Data = new int[newSize];
-	for (int i = 0; i < newSize; i++)
-		Data[i] = temp[i];
-
-	delete[] temp;
+	Data = &temp[0];
 	temp = 0;
 	
+//	Data = new int[newSize];
+//	for (int i = 0; i < newSize; i++)
+//		Data[i] = temp[i];
+
+//	delete[] temp;
+	temp = 0;
+	arrSize = newSize;
 	return newSize;
 
 }
@@ -262,12 +265,12 @@ int & ClArray::operator ==(ClArray& t)// const
 	{
 		int i = 0;
 		while (i < arrSize && ok)
-			if (Data[i] != t.Data[i])
-			{
-				ok = 0;
-				return ok;
-			}
-			else i++;
+		if (Data[i] != t.Data[i])
+		{
+			ok = 0;
+			return ok;
+		}
+		else i++;
 	}
 	return ok;
 }
@@ -279,10 +282,10 @@ ClArray & ClArray::operator+(ClArray& m2)// const
 	for (int i = 0; i < arrSize; i++)
 		temp[i] = Data[i];
 	for (int i = arrSize; i < newSize; i++)
-		temp[i] = m2.Data[i-arrSize];
+		temp[i] = m2.Data[i - arrSize];
 	delete[] Data;
 	Data = 0;
-	
+
 	Data = new int[newSize];
 	arrSize = newSize;
 
@@ -301,13 +304,13 @@ int & ClArray::operator !=(ClArray& t)// const
 	{
 		int i = 0;
 		while (i < arrSize && !ok)
-			if (Data[i] != t.Data[i])
-			{
-				ok = 1;
-				return ok;
-			}
-			else
-				i++;
+		if (Data[i] != t.Data[i])
+		{
+			ok = 1;
+			return ok;
+		}
+		else
+			i++;
 	}
 	return ok;
 }
@@ -342,7 +345,7 @@ int & ClArray::operator<(ClArray& t)// const
 
 		}
 	}
-	
+
 	return ok;
 }
 
@@ -389,7 +392,7 @@ ClArray &ClArray::operator= (ClArray &&t)
 		}
 		memcpy(Data, t.Data, t.arrSize * sizeof(int));
 		arrSize = t.arrSize;
-		
+
 		delete[] t.Data;
 		//t.Data = nullptr;
 
@@ -426,13 +429,15 @@ int main()
 	std::cout << "ma = " << ma << std::endl;
 	ClArray mb(ma);// копируем 
 
-	std::cout <<"mb = " << mb << std::endl;
-	
+	std::cout << "mb = " << mb << std::endl;
+
 	//ClArray md(std::move(ma));
 	ClArray md;
-	
-	md = std::move(ma);
-	std::cout << "md = " <<  md << std::endl  ;
+
+	//md = std::move(ma);
+
+	md = ma;
+	std::cout << "md = " << md << std::endl;
 	std::cout << "ma = " << ma << std::endl;
 
 	mb.Insert(mb.IndexOf(3), 99);  // вставим число 99 перед первым элементом со значением 3
@@ -445,14 +450,22 @@ int main()
 	std::cout << mb[10];
 	std::cout << std::endl;
 	std::cout << "ma = " << ma << std::endl;
-	
-	ma+ma;
+
+	ma + ma;
 	std::cout << std::endl;
 	std::cout << "ma = " << ma << std::endl;
 
-	std::cout << (ma==ma) << std::endl;
+	std::cout << (ma == ma) << std::endl;
 	std::cout << (ma != ma) << std::endl;
 	std::cout << (ma < ma) << std::endl;
+	
+	ma.resize(5);
+	std::cout << "ma.size = " << ma.getSize() << std::endl;
+	std::cout << "ma = " << ma << std::endl;
+	
+	mb.resize(15);
+	std::cout << "mb.size = " << mb.getSize() << std::endl;
+	std::cout << "mb = " << mb << std::endl;
 
 	getchar();
 	getchar();
